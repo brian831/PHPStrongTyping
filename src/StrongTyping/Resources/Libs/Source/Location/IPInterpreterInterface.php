@@ -6,18 +6,10 @@ use StrongTyping\Resources\Libs\Source\Location\IPAddress;
 
 interface IPInterpreterInterface {
     
-    public function __construct(IPAddress $IPAddress);
-    
-    public function setIPAddress(IPAddress $IPAdress);
-    
-    public function getLatitude();
-    public function getLongitude();
-    
-    public function getCountryCode();
-    public function getCountryName();
-    public function getCityName();
-    
-    public function getLocalTimeZone();
+    /*
+     * Returns StrongTyping\Resources\Libs\Source\Location\Location
+     */
+    public function getLocation(IPAddress $IPAddress);
     
 }
 

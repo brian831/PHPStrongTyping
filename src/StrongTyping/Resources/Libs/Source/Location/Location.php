@@ -2,68 +2,79 @@
 
 namespace StrongTyping\Resources\Libs\Source\Location;
 
-use StrongTyping\Resources\Libs\Source\Location\IPAddress;
+use StrongTyping\Resources\Libs\Decimal;
 
 class Location{
+    
+    const UNIT_KILOMETER = 'K';
+    const UNIT_MILE = 'M';
 
-    protected $IPAddress;
-    protected $IPInterpreter;
+    protected $latitude;
+    protected $longitude;
+    protected $countryCode;
+    protected $countryName;
+    protected $cityName;
+    protected $localTimeZone;
 
-    public function __construct(IPAddress $forcedIPAddress = null,$IPInterpreterName = 'StrongTyping\Resources\Libs\Source\Location\CodeHelperIPInterpreter'){
-        if(!class_exists($IPInterpreterName)) throw new \Exception('Unknown IP Interpreter');
-        
-        $this->IPAddress = $forcedIPAddress;
-        if(!$this->IPAddress){
-            $this->IPAddress = $this->getRealIP();
-        }
-        
-        $IPInterpreter = new $IPInterpreterName($this->IPAddress);
-        if(!is_a($IPInterpreter, 'StrongTyping\Resources\Libs\Source\Location\IPInterpreterInterface')) throw new \Exception('Incorrect IP Interpreter');
-        
-        $this->IPInterpreter = $IPInterpreter;
-    }
-
-    public function getIPAddress() {
-        return $this->IPAddress;
+    public function setCountryCode($countryCode){
+        $this->countryCode = $countryCode;
     }
     
     public function getCountryCode() {
-        return $this->IPInterpreter->getCountryCode();
+        return $this->countryCode;
     }
 
+    public function setCountryName($countryName){
+        $this->countryName = $countryName;
+    }
+    
     public function getCountryName() {
-        return $this->IPInterpreter->getCountryName();
+        return $this->countryName;
+    }
+    
+    public function setCityName($cityName){
+        $this->cityName = $cityName;
     }
     
     public function getCityName() {
-        return $this->IPInterpreter->getCityName();
+        return $this->cityName;
     }
 
+    public function setLocalTimeZone($localTimeZone){
+        $this->localTimeZone = $localTimeZone;
+    }
+    
     public function getLocalTimeZone() {
-        return $this->IPInterpreter->getLocalTimeZone();
+        return $this->localTimeZone;
     }
 
+    public function setLatitude($latitude){
+        $this->latitude = $latitude;
+    }
+    
     public function getLatitude() {
-        return $this->IPInterpreter->getLatitude();
+        return $this->latitude;
     }
 
+    public function setLongitude($longitude){
+        $this->longitude = $longitude;
+    }
+    
     public function getLongitude() {
-        return $this->IPInterpreter->getLongitude();
+        return $this->longitude;
     }
- 
-    public function getRealIP() {
-        if(isset($_SERVER['HTTP_CF_CONNECTING_IP']))        $ipString = $_SERVER['HTTP_CF_CONNECTING_IP'];
-        else if (isset($_SERVER['HTTP_X_REAL_IP']))         $ipString = $_SERVER['HTTP_X_REAL_IP'];
-        else if (isset($_SERVER['HTTP_CLIENT_IP']))         $ipString = $_SERVER['HTTP_CLIENT_IP'];
-        else if (isset($_SERVER['HTTP_X_FORWARDED_FOR']))   $ipString = $_SERVER['HTTP_X_FORWARDED_FOR'];
-        else if (isset($_SERVER['HTTP_X_FORWARDED']))       $ipString = $_SERVER['HTTP_X_FORWARDED'];
-        else if(isset($_SERVER['HTTP_FORWARDED_FOR']))      $ipString = $_SERVER['HTTP_FORWARDED_FOR'];
-        else if(isset($_SERVER['HTTP_FORWARDED']))          $ipString = $_SERVER['HTTP_FORWARDED'];
-        else if(isset($_SERVER['REMOTE_ADDR']))             $ipString = $_SERVER['REMOTE_ADDR'];
+    
+    public function getDistance(Location $otherLocation, $distanceUnit = self::UNIT_MILE){
+        $theta = $this->getLatitude() - $otherLocation->getLongitude();
+        $dist = sin(deg2rad($this->getLatitude())) * sin(deg2rad($otherLocation->getLatitude())) +  cos(deg2rad($this->getLatitude())) * cos(deg2rad($otherLocation->getLatitude())) * cos(deg2rad($theta));
+        $dist = acos($dist);
+        $dist = rad2deg($dist);
         
-        else throw new \Exception('Unknown IP Address');
+        $distance = $dist * 60 * 1.1515;
+        if($distanceUnit == self::UNIT_KILOMETER) $distance = $distance * 1.609344;
 
-        return new IPAddress($ipString);
+        $result = new Decimal($distance);
+        return $result;
     }
     
 }
