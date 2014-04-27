@@ -1,15 +1,15 @@
 <?php
 
-namespace StrongTyping\Resources\Libs\Source\Localization;
+namespace StrongTyping\Resources\Libs\Source\Location;
 
-use StrongTyping\Resources\Libs\Source\Localization\IPAddress;
+use StrongTyping\Resources\Libs\Source\Location\IPAddress;
 
-class Localization{
+class Location{
 
     protected $IPAddress;
     protected $IPInterpreter;
 
-    public function __construct(IPAddress $forcedIPAddress = null,$IPInterpreterName = 'StrongTyping\Resources\Libs\Source\Localization\CodeHelperIPInterpreter'){
+    public function __construct(IPAddress $forcedIPAddress = null,$IPInterpreterName = 'StrongTyping\Resources\Libs\Source\Location\CodeHelperIPInterpreter'){
         if(!class_exists($IPInterpreterName)) throw new \Exception('Unknown IP Interpreter');
         
         $this->IPAddress = $forcedIPAddress;
@@ -18,7 +18,7 @@ class Localization{
         }
         
         $IPInterpreter = new $IPInterpreterName($this->IPAddress);
-        if(!is_a($IPInterpreter, 'StrongTyping\Resources\Libs\Source\Localization\IPInterpreterInterface')) throw new \Exception('Incorrect IP Interpreter');
+        if(!is_a($IPInterpreter, 'StrongTyping\Resources\Libs\Source\Location\IPInterpreterInterface')) throw new \Exception('Incorrect IP Interpreter');
         
         $this->IPInterpreter = $IPInterpreter;
     }

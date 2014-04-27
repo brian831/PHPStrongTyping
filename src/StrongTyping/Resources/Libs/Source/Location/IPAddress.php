@@ -1,6 +1,6 @@
 <?php
 
-namespace StrongTyping\Resources\Libs\Source\Localization;
+namespace StrongTyping\Resources\Libs\Source\Location;
 
 use StrongTyping\Resources\Libs\String;
 

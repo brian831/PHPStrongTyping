@@ -1,8 +1,8 @@
 <?php
 
-namespace StrongTyping\Resources\Libs\Source\Localization;
+namespace StrongTyping\Resources\Libs\Source\Location;
 
-use StrongTyping\Resources\Libs\Source\Localization\IPAddress;
+use StrongTyping\Resources\Libs\Source\Location\IPAddress;
 
 interface IPInterpreterInterface {
     
