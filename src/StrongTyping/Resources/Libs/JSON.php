@@ -8,7 +8,9 @@ class JSON extends String{
     
     protected $decodedValue;
 
-    public function setValue($value){
+    public function setValue($value,$forceValidation = false){
+        if($forceValidation && !$this->isJsonFormat($value)) throw new \Exception('Not valid JSON formatted string');
+        
         if($this->isJsonFormat($value)){
             $this->value = (string) $value;
             $this->decodedValue = json_decode($value);
