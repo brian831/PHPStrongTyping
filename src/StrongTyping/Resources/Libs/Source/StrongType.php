@@ -1,6 +1,6 @@
 <?php
 
-namespace StrongTyping\Resources\Libs;
+namespace StrongTyping\Resources\Libs\Source;
 
 interface StrongType{
     

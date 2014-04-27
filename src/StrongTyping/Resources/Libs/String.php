@@ -2,7 +2,7 @@
 
 namespace StrongTyping\Resources\Libs;
 
-use StrongTyping\Resources\Libs\StrongType;
+use StrongTyping\Resources\Libs\Source\StrongType;
 
 class String implements StrongType{
     

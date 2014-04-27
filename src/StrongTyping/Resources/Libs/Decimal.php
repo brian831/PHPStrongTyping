@@ -2,18 +2,14 @@
 
 namespace StrongTyping\Resources\Libs;
 
-use StrongTyping\Resources\Libs\StrongType;
-use StrongTyping\Resources\Libs\Convertible;
-use StrongTyping\Resources\Libs\String;
+use StrongTyping\Resources\Libs\Number;
 
-class Decimal implements StrongType, Convertible{
-    
-    protected $value;
+class Decimal extends Number{
     
     protected $decimalSeparator     = ',';
     protected $thousandsSeparator   = '';
     protected $precision;
-    
+
     public function __construct($value, $precision = 2){
         $this->setValue($value);
         $this->setPrecision($precision);
@@ -21,10 +17,6 @@ class Decimal implements StrongType, Convertible{
     
     protected function setValue($value){
         $this->value = (float) $value;
-    }
-    
-    public function getValue(){
-        return $this->value;
     }
     
     public function getFormattedValue(){
@@ -40,8 +32,15 @@ class Decimal implements StrongType, Convertible{
         $this->thousandsSeparator   = $thousandsSeparator;
     }
 
-    public function convertToString() {
-        return new String($this->getFormattedValue());
+    public function __toString() {
+        return (string) $this->getFormattedValue();
     }
     
+    /*
+     * @deprecated
+     */
+    public function convertToString(){
+        return $this->convert(Source\Conversion\ConversionFormats::STRING_FORMAT);
+    }
+
 }
