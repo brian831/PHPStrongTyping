@@ -34,8 +34,11 @@ abstract class WebConnection {
         $this->parameters = $parameters;
     }
     
-    public function getParameters(){
-        return $this->parameters;
+    public function getParameters($_as_string = false) {
+        if($_as_string){
+            return http_build_query($this->parameters);
+        }
+        return http_build_query($this->parameters);
     }
     
     public function setUrl($url){

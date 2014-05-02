@@ -5,6 +5,8 @@ namespace StrongTyping\Resources\Libs\Source\Location;
 use StrongTyping\Resources\Libs\Source\Location\IPAddress;
 use StrongTyping\Resources\Libs\Source\Location\Location;
 use StrongTyping\Resources\Libs\JSON;
+use StrongTyping\Resources\Libs\Source\Connection\CURLConnection;
+use StrongTyping\Resources\Libs\Source\Connection\BasicConnection;
 
 class CodeHelperIPInterpreter implements IPInterpreterInterface{
     
@@ -23,8 +25,16 @@ class CodeHelperIPInterpreter implements IPInterpreterInterface{
     }
     
     protected function getData(IPAddress $IPAddress){
-        $url        = 'http://api.codehelper.io/ips/?php&ip=' . $IPAddress->getValue();
-        $response   = new JSON(file_get_contents($url),true);
+        $url        = 'http://api.codehelper.io/ips/';
+        $parameters = array('php'=>'','ip'=>$IPAddress->getValue());
+        
+        if(CURLConnection::_is_enabled()){
+            $webConnection = new CURLConnection($url, CURLConnection::METHOD_GET, $parameters);
+        } else {
+            $webConnection = new BasicConnection($url, BasicConnection::METHOD_GET, $parameters);
+        }
+        
+        $response   = new JSON($webConnection->connect(),true);
         
         return $response->getDecodedValue();
     }
