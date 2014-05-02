@@ -9,7 +9,7 @@ interface IPInterpreterInterface {
     /*
      * Returns StrongTyping\Resources\Libs\Source\Location\Location
      */
-    public function getLocation(IPAddress $IPAddress);
+    public function getLocationByIP(IPAddress $IPAddress);
     
 }
 

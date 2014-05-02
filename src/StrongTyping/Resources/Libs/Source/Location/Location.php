@@ -77,6 +77,30 @@ class Location{
         return $result;
     }
     
+    public function getMidpoint(Location $otherLocation){
+        $lat1= deg2rad($this->getLatitude());
+        $lng1= deg2rad($this->getLongitude());
+        $lat2= deg2rad($otherLocation->getLatitude());
+        $lng2= deg2rad($otherLocation->getLongitude());
+
+        $dlng = $lng2 - $lng1;
+        $Bx = cos($lat2) * cos($dlng);
+        $By = cos($lat2) * sin($dlng);
+        $lat3 = atan2( sin($lat1)+sin($lat2),
+        sqrt((cos($lat1)+$Bx)*(cos($lat1)+$Bx) + $By*$By ));
+        $lng3 = $lng1 + atan2($By, (cos($lat1) + $Bx));
+        $pi = pi();
+        
+        /**
+         * TODO: Develop helper able to fill a complete location from Latitude and Longitude, and call it here
+         */
+        $midpoint = new Location();
+        $midpoint->setLatitude(($lat3*180)/$pi);
+        $midpoint->setLongitude(($lng3*180)/$pi);
+        
+        return $midpoint;
+    }
+    
 }
 
 ?>

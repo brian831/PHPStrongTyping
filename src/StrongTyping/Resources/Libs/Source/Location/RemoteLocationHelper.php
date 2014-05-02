@@ -19,12 +19,12 @@ class RemoteLocationHelper {
         return new IPAddress($ipString);
     }
     
-    public static function getUserLocation(IPAddress $IPAddress, $IPInterpreterName = 'StrongTyping\Resources\Libs\Source\Location\CodeHelperIPInterpreter'){
+    public static function getLocationByIP(IPAddress $IPAddress, $IPInterpreterName = 'StrongTyping\Resources\Libs\Source\Location\CodeHelperIPInterpreter'){
         if(!class_exists($IPInterpreterName)) throw new \Exception('Unknown IP Interpreter');
         $IPInterpreter = new $IPInterpreterName();
         if(!is_a($IPInterpreter, 'StrongTyping\Resources\Libs\Source\Location\IPInterpreterInterface')) throw new \Exception('Incorrect IP Interpreter');
         
-        return $IPInterpreter->getLocation($IPAddress);
+        return $IPInterpreter->getLocationByIP($IPAddress);
     }
     
 }

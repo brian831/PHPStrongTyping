@@ -8,7 +8,7 @@ use StrongTyping\Resources\Libs\JSON;
 
 class CodeHelperIPInterpreter implements IPInterpreterInterface{
     
-    public function getLocation(IPAddress $IPAddress){
+    public function getLocationByIP(IPAddress $IPAddress){
         $data = $this->getData($IPAddress);
         
         $location = new Location();
